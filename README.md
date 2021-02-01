@@ -18,7 +18,7 @@ python -m algs
 ```
 
 ### testing
-Testing is as simple as running
+Testing is as simple as running!!!!!
 ```
 python -m pytest test/*
 ```
