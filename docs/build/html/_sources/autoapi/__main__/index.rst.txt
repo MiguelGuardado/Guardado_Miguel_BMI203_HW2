@@ -1,0 +1,21 @@
+:mod:`__main__`
+===============
+
+.. py:module:: __main__
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   __main__.main
+
+
+.. function:: main()
+
+

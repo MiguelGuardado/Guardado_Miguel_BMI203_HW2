@@ -1,0 +1,42 @@
+:mod:`Ligand`
+=============
+
+.. py:module:: Ligand
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   Ligand.Ligand
+
+
+
+.. class:: Ligand(LigandID, score, SMILES, OnBits)
+
+
+   simple ligand class to store the contents of ligand_information.csv.
+   I made the style choice of having this take an array of inputs from the text file for easier useability.
+   And to save efficiency so I dont need to store the memory of >8000 objects when it can condensed to one object
+
+   :param LigandID: Holds the ID label of each node
+   :type LigandID: array-like
+   :param score: Hold the doc score of each Ligand
+   :type score: array-like
+   :param Smiles: smiles representation of the Ligand ID
+   :type Smiles: array-like
+   :param OnBits: raw onbit data where each number represents the index where a bit is 1
+   :type OnBits: array-like
+   :param Long: Will hold the 1024 dimension represention of the ligant onbit
+   :type Long: array-like
+
+   .. method:: OnbitToLong(self)
+
+      Converts the raw onbit representation to a long 1024 array bit version of the data for clustering.
+
+
+

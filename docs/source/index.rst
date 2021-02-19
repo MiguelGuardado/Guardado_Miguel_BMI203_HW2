@@ -1,10 +1,5 @@
-.. Project2_Clustering documentation master file, created by
-   sphinx-quickstart on Wed Feb 17 19:29:10 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Project2_Clustering's documentation!
-===============================================
+Welcome to Miguel Guardado Project2_Clustering's documentation
+==============================================================
 
 .. toctree::
    :maxdepth: 2

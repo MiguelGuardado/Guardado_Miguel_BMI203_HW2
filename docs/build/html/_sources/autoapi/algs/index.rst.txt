@@ -1,0 +1,205 @@
+:mod:`algs`
+===========
+
+.. py:module:: algs
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   algs.HierarchicalClustering
+   algs.PartitionClustering
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   algs.SilhouetteScore
+   algs.TanimotoCoeff
+   algs.CalculatePairWiseDistance
+
+
+.. function:: SilhouetteScore(ClusteringObject)
+
+   Calculates the Silhouette Score of your Cluster.
+   This score can be used to evaluate the quality of clusters created by the clustering algorithim. This will calcualte
+   the silhouette score for each observation/data point and return the mean of every point. The range of values
+   calculated and returned will be between [-1,1]. The algorithim will calcute for each point
+   a = Cohesion of each observation within a cluster
+   b = Seperation of each observation within other clusters
+   s(i) = b-a/max(a,b)
+
+   :param ClusteringObject: This can be either a HierarchicalClustering or a PartitionClustering object from algs class that has a filled ClusteringObject.clusters.
+   :type ClusteringObject: object
+
+   :returns: Returns the mean Silhouette score across all individuals observations, value will be between [-1,1]. A value
+             close to 1 will mean the clusters is well seperated and dense, 0 representing overlapping clusters, and -1 meaning
+             the samples might have been assigned to the wrong cluster.
+   :rtype: int
+
+
+.. function:: TanimotoCoeff(ClusterA, ClusterB)
+
+   Calculates the Tanimoto similarity Coefficent for two given clusters.
+   This is used to evaluate the similarity of one clustering compared to another clustering. The Tanimoto coefficient
+   is implemented the same way as Jacard Distance, since T. Tanimoto created this implementation independently from
+   Jaccard with the primary purpose for Cheminformatics. Caluclating this coefficeint will come from dividing the
+   intersection of the two sets from the union of both sets.
+   J(x,y)=|X insec Y|/|X union Y|
+
+   :param ClusterA: This can contain either a list of list where each list inside the main list represent a cluster.
+   :type ClusterA: list
+   :param This can be a list type or a numpy array where each row is a cluster.: ex: [[1,2,3],[4,5,6],[7,8]]
+   :param ClusterB: Same as cluster A, make sure the type of list created is consistent and the same size as the first
+   :type ClusterB: list
+   :param cluster.:
+
+   :returns: The range of this coefficient is between [0,1] with a value of 1 being identical clusters
+             and 0 having no identical matches found in the cluster.
+   :rtype: int
+
+
+.. function:: CalculatePairWiseDistance(arr1, arr2)
+
+   Calculates the Euclidean distance between two observations on N based features.
+   This utilizes vector operation so when you input the data be sure to input it as a singular dimension of data.
+
+   :param arr1: 1-d array of data. ex [1,2,4,4,5]
+   :type arr1: list
+   :param arr2: 1-d array of data. ex [2,5,6,3,1]
+   :type arr2: list
+
+   :returns: Single value of the euclidean distance between these two obsevations.
+   :rtype: int
+
+
+.. class:: HierarchicalClustering(rawdata, n_clusters)
+
+
+   This is a class is used to preform Hierarchial Clustering on a set of M observations by N features matrix.
+   This type of clustering will be an Agglomerative clustering, or a bottom up approach, where we start off with each
+   node in thier own cluster, combining pairs clusters one iteration at a time until we get to a desired amount of
+   clusters to stop at. This is an implementation of a deterministic clustering algorithim
+
+       Attributes:
+           rawdata (array-like): Matrix of M observation x N features, must be set so the row represents an individual observation
+           DistanceMatrix (array-like): Distance Matrix of [M x M] features where each index represents the euclidean distance
+           clusters(array-like): empty at initialization, stores a cluster array with each list inside the main list being a cluster of obvservations.
+           n_clusters(int): Specify the number of clusters we should stop our petitioning algorithim at.
+           clustersassignment(array-like): empty at initialization, stores an 1-d array of size M and stores the cluster ID each nodes belings to
+
+
+   .. method:: CalculateEuclideanDistance(self)
+
+      This helper function will help fill the distance matrix needed for the HierarchicalClustering clustering
+      algorithim, this will iterate us though each observation calculating the Euclidean pairwise distance between the two obsevations.
+
+          Returns:
+            self.DistanceMatrix(array-like): Distance Matrix of the object. Will now be non-empty array
+
+
+
+   .. method:: FitPreductions(self)
+
+      This helper function will be used to fill self.clusterassignment, where we will go though each cluster and
+      assign each observation in that cluster a numerical label, The number of unique numerical label will be equal
+      to the n_clusters you define as a user.
+
+      example:
+      Input: [[1,2,3],[4,5],[6,7,8,9]]
+      Output: [1,1,1,2,2,3,3,3,3]
+
+
+   .. method:: runClustering(self)
+
+      This function is used to run my clustering algorithim. This will be a agglomerative clustering implementation.
+      A minor psudocode implementation of our alg will be:
+      1. Assign each node into their own cluster
+      while the length of cluster > number of clusters desired
+      2. Find the smallest non.nan distance in the Distance Matrix
+      3 Combine the clusters where the distance is found
+      4. Update distance matrix we combine the distances of the two observations and prune a row/col.
+      done
+      5. Assign each observation thier clusterID
+
+          Returns:
+            self.clusters (array-like): list of list of observations where each list represents a cluster and the observations found in that cluster
+            self.clusterassignment(array-like): Cluster assignment for each of the observation
+
+
+
+
+.. class:: PartitionClustering(rawdata, n_clusters, max_iteration)
+
+
+   This is a class is used to preform Partition Clustering on a set of M observations by N features matrix.
+   This type of clustering will be an Agglomerative clustering, or a bottom up approach, where we start off with
+   each node in thier own cluster, combining pairs clusters one iteration at a time until we get to a desired amount
+   of clusters to stop at. This is an implementation of a non-deterministic clustering algorithim
+
+       Attributes:
+           rawdata (array-like): Matrix of M observation x N features, must be set so the row represents an individual observation
+           DistanceMatrix (array-like): Distance Matrix of [M x M] features where each index represents the euclidean distance
+           centroids(array-like): will hold the centoids value
+           max_iteration(int): Since the time to converge to a centroid is unknown this parameter is here to allow us to break after a certain amount of iterations
+           clusters(array-like): Empty at initialization, stores a cluster array with each list inside the main list being a cluster of obvservations.
+           n_clusters(int): Specify the number of clusters we should stop our petitioning algorithim at.
+           clustersassignment(array-like): empty at initialization, stores an 1-d array of size M and stores the cluster ID each nodes belings to
+
+
+   .. method:: UpdateCentroid(self, new_cluster)
+
+      This function is used as a helper function of my run.clustering() function to identify the new Centroid.
+      This is used to take in the current clustering array, calculate the mean of each cluster, and assign the closet
+      point to the mean as the new centroid. I implemented a style choice of having the centroid be the observation closest
+      to the cluster mean rather then the cluster mean itself, while this is not the best Mathemetical implementation,
+      it allows us to ignore most edge cases when a updated centroid mean may produde and empty cluster. Also provides
+      a slightly faster implementation.
+
+          Args:
+              new_cluster (array-like): current iteration of clusters assignments,
+
+          Returns:
+              self.centoid (array-like): this will return an updated version of centorid nodes
+
+
+
+   .. method:: FitPreductions(self)
+
+      This helper function will be used to fill self.clusterassignment, where we will go though each cluster and
+      assign each observation in that cluster a numerical label, The number of unique numerical label will be equal
+      to the n_clusters you define as a user.
+
+      example:
+      Input: [[1,2,3],[4,5],[6,7,8,9]]
+
+      Output: [1,1,1,2,2,3,3,3,3]
+
+
+   .. method:: runClustering(self)
+
+      This function is used to run our clustering algorithim. This will be a k-means clustering implementation.
+      A light psudocode implementation of my alg will be:
+      1. Choose a random set of observations to be the initial centroids
+      while centroids have not converged or reached max_iterations:
+      2. Assign each observation to their closest cluster centroid
+      3  Update the centroid based off the mean of the newly assigned cluster
+      done
+      4. Assign each observation thier clusterID
+
+
+          Returns:
+            self.clusters (array-like): list of list of observations where each list represents a cluster and the observations found in that cluster
+            self.clusterassignment(array-like): Cluster assignment for each of the observation
+
+
+
+

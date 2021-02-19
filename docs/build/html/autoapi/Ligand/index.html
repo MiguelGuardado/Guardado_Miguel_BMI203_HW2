@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ligand &mdash; Project2_Clustering 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Project2_Clustering
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Project2_Clustering</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">Ligand</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/autoapi/Ligand/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-Ligand">
+<span id="ligand"></span><h1><a class="reference internal" href="#module-Ligand" title="Ligand"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Ligand</span></code></a><a class="headerlink" href="#module-Ligand" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Ligand.Ligand" title="Ligand.Ligand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ligand</span></code></a></p></td>
+<td><p>simple ligand class to store the contents of ligand_information.csv.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="Ligand.Ligand">
+<em class="property">class </em><code class="sig-prename descclassname">Ligand.</code><code class="sig-name descname">Ligand</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">LigandID</span></em>, <em class="sig-param"><span class="n">score</span></em>, <em class="sig-param"><span class="n">SMILES</span></em>, <em class="sig-param"><span class="n">OnBits</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Ligand.Ligand" title="Permalink to this definition">¶</a></dt>
+<dd><p>simple ligand class to store the contents of ligand_information.csv.
+I made the style choice of having this take an array of inputs from the text file for easier useability.
+And to save efficiency so I dont need to store the memory of &gt;8000 objects when it can condensed to one object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LigandID</strong> (<em>array-like</em>) -- Holds the ID label of each node</p></li>
+<li><p><strong>score</strong> (<em>array-like</em>) -- Hold the doc score of each Ligand</p></li>
+<li><p><strong>Smiles</strong> (<em>array-like</em>) -- smiles representation of the Ligand ID</p></li>
+<li><p><strong>OnBits</strong> (<em>array-like</em>) -- raw onbit data where each number represents the index where a bit is 1</p></li>
+<li><p><strong>Long</strong> (<em>array-like</em>) -- Will hold the 1024 dimension represention of the ligant onbit</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="Ligand.Ligand.OnbitToLong">
+<code class="sig-name descname">OnbitToLong</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Ligand.Ligand.OnbitToLong" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the raw onbit representation to a long 1024 array bit version of the data for clustering.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Miguel Guardado
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
