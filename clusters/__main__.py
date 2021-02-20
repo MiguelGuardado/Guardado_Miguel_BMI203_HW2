@@ -1,7 +1,10 @@
 from clusters import Ligand,algs
 import pandas as pd
 import numpy as np
+import umap # comment if you are not using this! it takes forever to load locally
 import matplotlib.pyplot as plt
+
+
 
 def main():
     LigandInformation=pd.read_csv("../ligand_information.csv",sep=",")
@@ -9,99 +12,88 @@ def main():
                              SMILES=LigandInformation['SMILES'],OnBits=LigandInformation['OnBits'])
     LigandData.OnbitToLong()
 
+    #Question 2
+    #I am going to implement a Umap of the ligand
+    fit = umap.UMAP()
+    u= fit.fit_transform(LigandData.long[0:2000])
+
+    #Used to just load the data for later questions/visualizations, if you uncomment, keep the loadtxt command to so the data
+    #can be typecast to a numpy array, for array index notation consistentcy .
+    np.savetxt('UmapDimensionalSpace.txt',[u[:, 0], u[:, 1]])
+    u=np.loadtxt("UmapDimensionalSpace.txt")
     #
-    # ClusA= [['A','B','D'],['C','E'],['F']]
-    # ClusB = [['A', 'B', 'E'], ['C', 'D'], ['F']]
-    #
-    # # score=algs.TanimotoCoeff(ClusA,ClusB)
-    # # print(score)
-    # HC1=algs.HierarchicalClustering(LigandData.long[0:10])
-    # HC1.CalculateEuclideanDistance()
-    # HC1.runClustering()
-    # print(HC1.DistanceMatrix)
+    plt.scatter(u[0], u[1])
+    plt.title('UMAP embedding of Ligands')
+    plt.show()
 
-    # rawdata=np.array([[10],[7],[28],[20],[35],[8]])
-    # DistMat=np.array([[0.0,0.23,0.22,0.37,0.34,0.23],
-    #                   [0.23,0.0,0.15,0.20,0.14,0.25],
-    #                   [0.22,0.15,0.0,0.15,0.28,0.11],
-    #                   [0.37,0.20,0.15,0.0,0.29,0.22],
-    #                   [0.34,0.14,0.28,0.29,0.0,0.39],
-    #                   [0.23,0.25,0.11,0.22,.39,0.0]])
-    #
-    # HC2=algs.HierarchicalClustering(rawdata=rawdata)
-    # #HC2.CalculateEuclideanDistance()
-    # HC2.DistanceMatrix=DistMat
-    # #HC2.CalculateEuclideanDistance()
-    # HC2.runClustering()
-    # algs.SilouetteScore()
+    LABEL_COLOR_MAP = {1: 'r',
+                       2: 'b',
+                       3: 'g',
+                       4: 'y',
+                       5: 'm',
+                       6: 'c'
 
-
-    X = np.random.rand(50, 2)
-    Y = 2 + np.random.rand(50, 2)
-    Z = np.concatenate((X, Y))
-
-    testcluster=np.array([[3.08232755e-01, 7.31276243e-01],
-    [1.38059574e-01, 5.96831094e-01],
-    [7.17477934e-01, 6.92660634e-01],
-    [1.04842083e-01, 5.81815300e-01],
-    [2.63517862e-01, 8.56987831e-01],
-    [6.82660482e-01, 7.65745298e-01],
-    [3.30899459e-01, 1.27005643e-01],
-    [2.15388524e+00, 2.76495447e+00],
-    [2.02847470e+00, 2.17510569e+00],
-    [2.81339552e+00, 2.92175026e+00],
-    [2.11079023e+00, 2.70619934e+00],
-    [2.51975852e+00, 2.72664963e+00]])
-
-    TestPT=algs.PartitionClustering(rawdata=testcluster,n_clusters=2,max_iteration=100)
-    TestPT.runClustering()
-
-    score=algs.SilhouetteScore(TestPT)
+    }
+    #Question 3 +4
+    score=[]
+    for i in range(1,10):
+        print(i)
+        PT=algs.PartitionClustering(LigandData.long[0:2000],n_clusters=i, max_iteration=100)
+        PT.runClustering()
+        score.append(algs.SilhouetteScore(PT))
+        del PT
     print(score)
 
+    #Will rerun singluar test on higest silscore to get data for generation.
+    #Best score was found when K=6, see Guardado_Miguel_BMI203_HW2_WriteUp.pdf for more info.
+    PT_k6=algs.PartitionClustering(LigandData.long[0:2000],n_clusters=6, max_iteration=100)
+    PT_k6.runClustering()
+    print(PT_k6.clusterassignment)
+    label_color = [LABEL_COLOR_MAP[l] for l in PT_k6.clusterassignment]
+    print(np.unique(PT_k6.clusterassignment))
+    u=np.loadtxt("UmapDimensionalSpace.txt")
 
-    TestPT=algs.HierarchicalClustering(rawdata=testcluster,n_clusters=2)
-    TestPT.runClustering()
+    plt.figure(figsize=(20, 10))
+    plt.scatter(u[0], u[1],c=label_color)
+    plt.title('UMAP embedding of Ligands,2000 Ligands, 6 clusters')
+    plt.show()
 
-    score=algs.SilhouetteScore(TestPT)
+
+    #Question 5+6
+    score=[]
+    for i in range(1,10):
+        print(i)
+        HC=algs.PartitionClustering(LigandData.long[0:2000],n_clusters=i, max_iteration=100)
+        HC.runClustering()
+        score.append(algs.SilhouetteScore(HC))
+        print(score)
+        del HC
     print(score)
-    # # #
-    # PT1=algs.PartitionClustering(rawdata=LigandData.long[1:100],n_clusters=3,max_iteration=100)
-    #
-    # #PT1=algs.PartitionClustering(rawdata=LigandData.long[0:1000],n_clusters=150,max_iteration=100)
-    # # PT1.DistanceMatrix=algs.CalculateEuclideanDistance(PT1)
-    # PT1.runClustering()
-    # algs.SilhouetteScore(PT1)
-    #
-    # HC1=algs.HierarchicalClustering(rawdata=LigandData.long[1:100],n_clusters=3)
-    # # HC1 = algs.HierarchicalClustering(LigandData.long[0:1000])
-    # #HC1.CalculateEuclideanDistance()
-    # HC1.runClustering()
-    # algs.SilhouetteScore(HC1)
+    HC_k4=algs.HierarchicalClustering(LigandData.long[0:2000],n_clusters=4)
+    HC_k4.runClustering()
+    print(HC_k4.clusterassignment)
+    label_color = [LABEL_COLOR_MAP[l] for l in HC_k4.clusterassignment]
+    print(np.unique(HC_k4.clusterassignment))
+    u=np.loadtxt("UmapDimensionalSpace.txt")
 
+    plt.figure(figsize=(20, 10))
+    plt.scatter(u[0], u[1],c=label_color)
+    plt.title('UMAP embedding of Ligands,2000 Ligands, 4 clusters')
+    plt.show()
 
+    # #Question 7
+    arr1=np.array([0.2035,0.0933,0.18810,0.0485,0.396001,0.22705,0.08660,0.29346])
+    arr2=np.array([0.0953,0.08660,0.26153,0.081803,0.163898,0.233848,0.09873,-0.167866])
+    print(np.sum(arr1-arr2))
+    print(algs.CalculatePairWiseDistance(arr1,arr2))
 
-
-
-
-
-    #
-    # #Plot output files
-    #
-    # LABEL_COLOR_MAP = {1: 'r',
-    #                    2: 'b',
-    #                    3: 'g',
-    #                    4: 'y',
-    #                    5: 'b'
-    #
-    # }
-    # label_color = [LABEL_COLOR_MAP[l] for l in PT1.clusterassignment]
-    # plt.scatter(Z[:,0], Z[:,1], c=label_color)
-    # plt.show()
-
-
-
-
+    k=[4,6]
+    for n_cluster in k:
+        PT= algs.PartitionClustering(LigandData.long[0:2000],n_clusters=n_cluster,max_iteration=100)
+        PT.runClustering()
+        HC= algs.HierarchicalClustering(LigandData.long[0:2000],n_clusters=n_cluster)
+        HC.runClustering()
+        print(algs.TanimotoCoeff(PT.clusters,HC.clusters))
 
 
 

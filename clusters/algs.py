@@ -421,7 +421,6 @@ class PartitionClustering():
                     #Assign current ID to the cluster
                     new_clusters[idxofmin].append(i)
                 else:
-                    #print(self.centroids)
                     clusteridx=int(np.argwhere(self.centroids == i)[0])
                     new_clusters[clusteridx].append(i)
                     #print(new_clusters)
