@@ -36,9 +36,35 @@ def main():
     # algs.SilouetteScore()
 
 
-    # X = np.random.rand(50, 2)
-    # Y = 2 + np.random.rand(50, 2)
-    # Z = np.concatenate((X, Y))
+    X = np.random.rand(50, 2)
+    Y = 2 + np.random.rand(50, 2)
+    Z = np.concatenate((X, Y))
+
+    testcluster=np.array([[3.08232755e-01, 7.31276243e-01],
+    [1.38059574e-01, 5.96831094e-01],
+    [7.17477934e-01, 6.92660634e-01],
+    [1.04842083e-01, 5.81815300e-01],
+    [2.63517862e-01, 8.56987831e-01],
+    [6.82660482e-01, 7.65745298e-01],
+    [3.30899459e-01, 1.27005643e-01],
+    [2.15388524e+00, 2.76495447e+00],
+    [2.02847470e+00, 2.17510569e+00],
+    [2.81339552e+00, 2.92175026e+00],
+    [2.11079023e+00, 2.70619934e+00],
+    [2.51975852e+00, 2.72664963e+00]])
+
+    TestPT=algs.PartitionClustering(rawdata=testcluster,n_clusters=2,max_iteration=100)
+    TestPT.runClustering()
+
+    score=algs.SilhouetteScore(TestPT)
+    print(score)
+
+
+    TestPT=algs.HierarchicalClustering(rawdata=testcluster,n_clusters=2)
+    TestPT.runClustering()
+
+    score=algs.SilhouetteScore(TestPT)
+    print(score)
     # # #
     # PT1=algs.PartitionClustering(rawdata=LigandData.long[1:100],n_clusters=3,max_iteration=100)
     #
@@ -53,13 +79,7 @@ def main():
     # HC1.runClustering()
     # algs.SilhouetteScore(HC1)
 
-    A=[[1,2,3,4,5],[6,7,8,9,10]]
-    B=[[1,7,3,9,5],[6,2,8,4,10]]
-    value=algs.TanimotoCoeff(A,B)
-    print(value)
 
-    value = algs.CalculatePairWiseDistance(np.array([10, 5, 2]), np.array([5, 10, 8]))
-    print(value)
 
 
 

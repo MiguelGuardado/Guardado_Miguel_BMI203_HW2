@@ -52,7 +52,6 @@ def SilhouetteScore(ClusteringObject):
             sil_score.append((b - a) / max(a, b))
 
     #Now we will assign each silouette score to thier own
-    print(np.mean(sil_score))
     return (np.mean(sil_score))
 
 
@@ -368,7 +367,7 @@ class PartitionClustering():
                 self.clusterassignment[ID] = clusteridx
             clusteridx+=1
 
-        self.clusters=clusters
+        #self.clusters=clusters
 
 
 
@@ -422,13 +421,14 @@ class PartitionClustering():
                     #Assign current ID to the cluster
                     new_clusters[idxofmin].append(i)
                 else:
+                    #print(self.centroids)
                     clusteridx=int(np.argwhere(self.centroids == i)[0])
                     new_clusters[clusteridx].append(i)
+                    #print(new_clusters)
 
             #STEP 3 Calulcate the mean of each cluster and assign mean centroid the new cluster centroid.
             self.UpdateCentroid(new_clusters)
             self.clusters = new_clusters
-
         #Finally with the predicted centroid, we will assign each indiv their cluster assignment, with each index
         #in the array corresponding to a row inside self.rawdata.
         #self.clusterassignment will be a filled array with each ID corresponding the the cluster of that datapoint
